@@ -102,6 +102,7 @@
 #include "PropertyView.h"
 #include "PythonConsole.h"
 #include "ReportView.h"
+#include "AIChatPanel.h"
 #include "SelectionView.h"
 #include "SplashScreen.h"
 #include "StatusBarLabel.h"
@@ -564,6 +565,7 @@ void MainWindow::setupDockWindows()
     setupPythonConsole();
     setupSelectionView();
     setupTaskView();
+    setupAIChatPanel();
 
     initDockWindows(false);
 
@@ -649,6 +651,31 @@ bool MainWindow::setupPythonConsole()
 
         DockWindowManager* pDockMgr = DockWindowManager::instance();
         pDockMgr->registerDockWindow("Std_PythonView", pcPython);
+        return true;
+    }
+
+    return false;
+}
+
+bool MainWindow::setupAIChatPanel()
+{
+    // AI Chat Panel - positioned on the right side
+    if (d->hiddenDockWindows.find("Std_AIChatPanel") == std::string::npos) {
+        auto pcAIChat = new AIChatPanel(this);
+        pcAIChat->setObjectName(QStringLiteral("AI Chat"));
+        pcAIChat->setWindowTitle(QDockWidget::tr("AI Assistant"));
+        pcAIChat->setMinimumWidth(280);
+
+        DockWindowManager* pDockMgr = DockWindowManager::instance();
+        pDockMgr->registerDockWindow("Std_AIChatPanel", pcAIChat);
+        
+        // Add to right dock widget area
+        QDockWidget* dock = pDockMgr->addDockWindow("Std_AIChatPanel", pcAIChat, Qt::RightDockWidgetArea);
+        if (dock) {
+            dock->setFeatures(QDockWidget::DockWidgetClosable | 
+                             QDockWidget::DockWidgetMovable | 
+                             QDockWidget::DockWidgetFloatable);
+        }
         return true;
     }
 

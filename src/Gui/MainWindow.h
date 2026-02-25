@@ -320,6 +320,7 @@ private:
     bool setupSelectionView();
     bool setupReportView();
     bool setupPythonConsole();
+    bool setupAIChatPanel();
     bool updateTreeView(bool show);
     bool updatePropertyView(bool show);
     bool updateTaskView(bool show);
